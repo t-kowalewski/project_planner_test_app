@@ -12,9 +12,28 @@ class DOMHelper {
   }
 }
 
-class Tooltip {}
+class Tooltip {
+  closeTooltip() {}
+
+  delete() {
+    this.element.remove();
+  }
+
+  show() {
+    const tooltipElement = document.createElement('div');
+    tooltipElement.classList.add('card');
+    tooltipElement.textContent = 'Dummy!';
+    tooltipElement.addEventListener('click', this.delete.bind(this));
+    this.element = tooltipElement;
+    document.body.append(tooltipElement);
+
+    console.log(this);
+  }
+}
 
 class Project {
+  hasActiveTooltip = false;
+
   constructor(id, type, updateProjectListFunct) {
     this.id = id;
     this.updateProjectList = updateProjectListFunct;
@@ -23,8 +42,19 @@ class Project {
     this.switchBtn(type);
   }
 
+  showMoreInfo() {
+    if (this.hasActiveTooltip) {
+      return;
+    }
+    const tooltip = new Tooltip();
+    tooltip.show();
+    this.hasActiveTooltip = true;
+  }
+
   moreInfoBtn() {
-    // const btn = document.querySelector('li button:first-of-type');
+    const projectItemElement = document.getElementById(this.id);
+    const btn = projectItemElement.querySelector('button:first-of-type');
+    btn.addEventListener('click', this.showMoreInfo.bind(this));
   }
 
   switchBtn(type) {
