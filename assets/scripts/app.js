@@ -26,7 +26,7 @@ class Tooltip {
     this.element.remove();
   }
 
-  show() {
+  add() {
     const tooltipElement = document.createElement('div');
     tooltipElement.classList.add('card');
     tooltipElement.textContent = 'Dummy!';
@@ -54,7 +54,7 @@ class Project {
     const tooltip = new Tooltip(() => {
       this.hasActiveTooltip = false;
     });
-    tooltip.show();
+    tooltip.add();
     this.hasActiveTooltip = true;
   }
 
