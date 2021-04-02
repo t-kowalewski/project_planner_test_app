@@ -13,7 +13,14 @@ class DOMHelper {
 }
 
 class Tooltip {
-  closeTooltip() {}
+  constructor(closeNotifierFn) {
+    this.closeNotifier = closeNotifierFn;
+  }
+
+  closeTooltip() {
+    this.delete();
+    this.closeNotifier();
+  }
 
   delete() {
     this.element.remove();
@@ -23,11 +30,9 @@ class Tooltip {
     const tooltipElement = document.createElement('div');
     tooltipElement.classList.add('card');
     tooltipElement.textContent = 'Dummy!';
-    tooltipElement.addEventListener('click', this.delete.bind(this));
+    tooltipElement.addEventListener('click', this.closeTooltip.bind(this));
     this.element = tooltipElement;
     document.body.append(tooltipElement);
-
-    console.log(this);
   }
 }
 
@@ -46,7 +51,9 @@ class Project {
     if (this.hasActiveTooltip) {
       return;
     }
-    const tooltip = new Tooltip();
+    const tooltip = new Tooltip(() => {
+      this.hasActiveTooltip = false;
+    });
     tooltip.show();
     this.hasActiveTooltip = true;
   }
