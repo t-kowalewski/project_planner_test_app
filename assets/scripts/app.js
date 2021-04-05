@@ -12,27 +12,50 @@ class DOMHelper {
   }
 }
 
-class Tooltip {
+class Component {
+  constructor(hostElementId, insertBefore = false) {
+    if (hostElementId) {
+      this.hostElement = document.getElementById(hostElementId);
+    } else {
+      this.hostElement = document.body;
+    }
+
+    this.insertBefore = insertBefore;
+  }
+
+  delete(element) {
+    if (element) {
+      element.remove();
+    }
+  }
+
+  add(element) {
+    this.hostElement.insertAdjacentElement(
+      this.insertBefore ? 'afterbegin' : 'beforeend',
+      element
+    );
+  }
+}
+
+class Tooltip extends Component {
   constructor(closeNotifierFn) {
+    super();
     this.closeNotifier = closeNotifierFn;
+    this.render();
   }
 
   closeTooltip() {
-    this.delete();
+    this.delete(this.element);
     this.closeNotifier();
   }
 
-  delete() {
-    this.element.remove();
-  }
-
-  add() {
+  render() {
     const tooltipElement = document.createElement('div');
     tooltipElement.classList.add('card');
     tooltipElement.textContent = 'Dummy!';
     tooltipElement.addEventListener('click', this.closeTooltip.bind(this));
     this.element = tooltipElement;
-    document.body.append(tooltipElement);
+    this.add(this.element);
   }
 }
 
@@ -51,10 +74,9 @@ class Project {
     if (this.hasActiveTooltip) {
       return;
     }
-    const tooltip = new Tooltip(() => {
+    new Tooltip(() => {
       this.hasActiveTooltip = false;
     });
-    tooltip.add();
     this.hasActiveTooltip = true;
   }
 
