@@ -38,8 +38,8 @@ class Component {
 }
 
 class Tooltip extends Component {
-  constructor(closeNotifierFn, text) {
-    super();
+  constructor(closeNotifierFn, text, hostElementId) {
+    super(hostElementId);
     this.closeNotifier = closeNotifierFn;
     this.text = text;
     this.render();
@@ -54,6 +54,19 @@ class Tooltip extends Component {
     const tooltipElement = document.createElement('div');
     tooltipElement.classList.add('card');
     tooltipElement.textContent = this.text;
+
+    const hostElPosLeft = this.hostElement.offsetLeft;
+    const hostElPosTop = this.hostElement.offsetTop;
+    const hostElHeight = this.hostElement.clientHeight;
+    const hostElScroll = this.hostElement.parentElement.scrollTop;
+
+    const x = hostElPosLeft + 20;
+    const y = hostElPosTop + hostElHeight - 10 - hostElScroll;
+
+    tooltipElement.style.position = 'absolute';
+    tooltipElement.style.left = x + 'px'; // will be a string for example 10px
+    tooltipElement.style.top = y + 'px';
+
     tooltipElement.addEventListener('click', this.closeTooltip.bind(this));
     this.element = tooltipElement;
     this.add(this.element);
@@ -78,15 +91,15 @@ class Project {
     const projectElement = document.getElementById(this.id);
     const tooltipText = projectElement.dataset.extraInfo;
 
-    console.log(
-      '🚀 ~ Project ~ showMoreInfo ~ projectElement',
-      projectElement.dataset
-    );
-    projectElement.dataset.testInfo = 'some additional info';
+    // projectElement.dataset.testInfo = 'some additional info';
 
-    new Tooltip(() => {
-      this.hasActiveTooltip = false;
-    }, tooltipText);
+    new Tooltip(
+      () => {
+        this.hasActiveTooltip = false;
+      },
+      tooltipText,
+      this.id
+    );
     this.hasActiveTooltip = true;
   }
 
