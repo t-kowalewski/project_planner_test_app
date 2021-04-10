@@ -175,9 +175,16 @@ class App {
       activeProjects.addProject.bind(activeProjects)
     );
 
+    // document
+    //   .getElementById('start-analytics-btn')
+    //   .addEventListener('click', this.startAnalytics);
+    const timerId = setTimeout(this.startAnalytics, 3000); //3 sec in ms
+
     document
-      .getElementById('start-analytics-btn')
-      .addEventListener('click', this.startAnalytics);
+      .getElementById('stop-analytics-btn')
+      .addEventListener('click', () => {
+        clearTimeout(timerId);
+      });
   }
 
   static startAnalytics() {
