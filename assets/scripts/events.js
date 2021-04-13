@@ -76,4 +76,9 @@ list.addEventListener('click', (event) => {
   console.log(event);
   console.log(event.currentTarget);
   event.target.closest('li').classList.toggle('red-background');
+
+  // Trigger event programmatically
+  // form.submit();
+  btn.click();
+  btn.closest('div').nextElementSibling.lastElementChild.click();
 });
