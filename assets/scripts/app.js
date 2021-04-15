@@ -152,6 +152,31 @@ class ProjectList {
         )
       );
     }
+
+    this.connectDrop();
+  }
+
+  connectDrop() {
+    const list = document.querySelector(`#${this.type} ul`);
+
+    list.addEventListener('dragenter', (event) => {
+      if (event.dataTransfer.types[0] === 'text/plain') {
+        list.parentElement.classList.add('droppable');
+        event.preventDefault();
+      }
+    });
+
+    list.addEventListener('dragover', (event) => {
+      if (event.dataTransfer.types[0] === 'text/plain') {
+        event.preventDefault();
+      }
+    });
+
+    list.addEventListener('dragleave', (event) => {
+      if (event.relatedTarget.closest(`#${this.type} ul`) !== list) {
+        list.parentElement.classList.remove('droppable');
+      }
+    });
   }
 
   setSwitchHandler(switchHandlerFunction) {
