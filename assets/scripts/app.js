@@ -86,6 +86,7 @@ class Project {
 
     this.moreInfoBtn();
     this.switchBtn(type);
+    this.connectDrag();
   }
 
   showMoreInfo() {
@@ -105,6 +106,13 @@ class Project {
       this.id
     );
     this.hasActiveTooltip = true;
+  }
+
+  connectDrag() {
+    document.getElementById(this.id).addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', this.id);
+      event.dataTransfer.effectAllowed = 'move';
+    });
   }
 
   moreInfoBtn() {
@@ -178,13 +186,15 @@ class App {
     // document
     //   .getElementById('start-analytics-btn')
     //   .addEventListener('click', this.startAnalytics);
-    const timerId = setTimeout(this.startAnalytics, 3000); //3 sec in ms
 
-    document
-      .getElementById('stop-analytics-btn')
-      .addEventListener('click', () => {
-        clearTimeout(timerId);
-      });
+    // Analytics - Timer Sandbox
+    // const timerId = setTimeout(this.startAnalytics, 3000); //3 sec in ms
+
+    // document
+    //   .getElementById('stop-analytics-btn')
+    //   .addEventListener('click', () => {
+    //     clearTimeout(timerId);
+    //   });
   }
 
   static startAnalytics() {
