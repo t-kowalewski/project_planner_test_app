@@ -109,9 +109,15 @@ class Project {
   }
 
   connectDrag() {
-    document.getElementById(this.id).addEventListener('dragstart', (event) => {
+    const item = document.getElementById(this.id);
+
+    item.addEventListener('dragstart', (event) => {
       event.dataTransfer.setData('text/plain', this.id);
       event.dataTransfer.effectAllowed = 'move';
+    });
+
+    item.addEventListener('dragend', (event) => {
+      console.log(event);
     });
   }
 
@@ -173,9 +179,29 @@ class ProjectList {
     });
 
     list.addEventListener('dragleave', (event) => {
-      if (event.relatedTarget.closest(`#${this.type} ul`) !== list) {
+      if (
+        event.relatedTarget.closest &&
+        event.relatedTarget.closest(`#${this.type} ul`) !== list
+      ) {
         list.parentElement.classList.remove('droppable');
       }
+    });
+
+    list.addEventListener('drop', (event) => {
+      event.preventDefault(); //not required for Chrome
+
+      const projectId = event.dataTransfer.getData('text/plain');
+      if (this.projects.find((project) => project.id === projectId)) {
+        list.parentElement.classList.remove('droppable');
+        return;
+      }
+
+      document
+        .getElementById(projectId)
+        .querySelector('button:last-child')
+        .click();
+
+      list.parentElement.classList.remove('droppable');
     });
   }
 
