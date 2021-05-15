@@ -1,4 +1,4 @@
-import { Tooltip } from './Tooltip.js';
+// import { Tooltip } from './Tooltip.js';
 import { DOMHelper } from '../Utility/DOMHelper.js';
 
 export class Project {
@@ -22,14 +22,27 @@ export class Project {
 
     // projectElement.dataset.testInfo = 'some additional info';
 
-    new Tooltip(
-      () => {
-        this.hasActiveTooltip = false;
-      },
-      tooltipText,
-      this.id
-    );
-    this.hasActiveTooltip = true;
+    // Dynamically import Tooltip class only when click handler is activated
+    // import() returns promise resolved with 'module'
+    import('./Tooltip.js').then((module) => {
+      new module.Tooltip(
+        () => {
+          this.hasActiveTooltip = false;
+        },
+        tooltipText,
+        this.id
+      );
+      this.hasActiveTooltip = true;
+    });
+
+    // new Tooltip(
+    //   () => {
+    //     this.hasActiveTooltip = false;
+    //   },
+    //   tooltipText,
+    //   this.id
+    // );
+    // this.hasActiveTooltip = true;
   }
 
   connectDrag() {
