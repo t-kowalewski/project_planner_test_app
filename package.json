@@ -1,0 +1,25 @@
+{
+  "name": "practice-oop-01-starting-setup",
+  "version": "1.0.0",
+  "description": "OOP - Practice Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t-kowalewski/project_planner_test_app.git"
+  },
+  "author": "Tony Kowalewski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/t-kowalewski/project_planner_test_app/issues"
+  },
+  "homepage": "https://github.com/t-kowalewski/project_planner_test_app#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.2",
+    "@babel/eslint-parser": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "eslint": "^7.26.0"
+  }
+}
