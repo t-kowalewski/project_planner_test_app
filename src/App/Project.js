@@ -24,7 +24,7 @@ export class Project {
 
     // Dynamically import Tooltip class only when click handler is activated
     // import() returns promise resolved with 'module'
-    import('./Tooltip.js').then((module) => {
+    import(/* webpackChunkName: "tooltip" */ './Tooltip.js').then((module) => {
       new module.Tooltip(
         () => {
           this.hasActiveTooltip = false;
